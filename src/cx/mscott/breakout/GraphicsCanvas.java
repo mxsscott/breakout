@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import cx.mscott.breakout.objects.Ball;
 import cx.mscott.breakout.objects.Bat;
 
 public class GraphicsCanvas extends JPanel implements ActionListener {
@@ -58,6 +59,9 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 	
 	/** Player's bat */
 	private Bat bat;
+	
+	/** Player's ball */
+	private Ball ball;
 
 	/** Game cycle */
 	private int gameCycle;
@@ -65,6 +69,7 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 	public GraphicsCanvas() {
 		gameState = new GameState();
 		bat = new Bat(GAME_AREA_HEIGHT - 30, GAME_AREA_WIDTH, BORDER, HEADER_HEIGHT);
+		ball = new Ball(GAME_AREA_WIDTH, GAME_AREA_HEIGHT, BORDER, HEADER_HEIGHT);
 		
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.black);
@@ -104,6 +109,10 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 				repaint(bat.getBounds());
 			}
 		}
+		
+		repaint(ball.getBounds());
+		ball.move(bat);
+		repaint(ball.getBounds());
 	}
 
 	/**
@@ -127,6 +136,7 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 
         // Game area graphics...
         bat.repaint(g);
+        ball.repaint(g);
 	}
 	
 	/** Invalidate the score area */
