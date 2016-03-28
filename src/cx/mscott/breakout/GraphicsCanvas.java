@@ -15,6 +15,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import cx.mscott.breakout.objects.Bat;
+
 public class GraphicsCanvas extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -1659288567154587140L;
 
@@ -54,8 +56,15 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 	/** Font for score */
 	private Font scoreFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	
+	/** Player's bat */
+	private Bat bat;
+
+	/** Game cycle */
+	private int gameCycle;
+	
 	public GraphicsCanvas() {
 		gameState = new GameState();
+		bat = new Bat(GAME_AREA_HEIGHT - 30, GAME_AREA_WIDTH, BORDER, HEADER_HEIGHT);
 		
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.black);
@@ -80,10 +89,21 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+		gameCycle++;
 
-		gameState.incrementScore(1);
-		repaintScore();
+		// Look at keys every game cycles
+		if (gameCycle % 3 == 0) {
+			if (keys.contains(KeyEvent.VK_Q)) {
+				repaint(bat.getBounds());
+				bat.move(-10);
+				repaint(bat.getBounds());
+			}
+			if (keys.contains(KeyEvent.VK_P)) {
+				repaint(bat.getBounds());
+				bat.move(10);
+				repaint(bat.getBounds());
+			}
+		}
 	}
 
 	/**
@@ -105,7 +125,8 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
         g.setColor(Color.WHITE);
         g.fillRect(BORDER, HEADER_HEIGHT, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
 
-        // TODO Game graphics go here...
+        // Game area graphics...
+        bat.repaint(g);
 	}
 	
 	/** Invalidate the score area */
