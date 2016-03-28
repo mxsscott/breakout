@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 public class Bat {
 
-	private static final int BAT_HEIGHT = 20;
+	public final int BAT_HEIGHT = 20;
 	
 	/** Maximum X position */
 	private int maxX;
@@ -32,6 +32,22 @@ public class Bat {
 		this.currentPosition.translate(offsetX, offsetY);
 		
 		this.offsetX = offsetX;
+	}
+	
+	/**
+	 * Current X position of the bat.
+	 * @return untranslated left edge of the bat.
+	 */
+	public int getCurrentX() {
+		return currentX;
+	}
+	
+	/**
+	 * Width of the bat.
+	 * @return
+	 */
+	public int getWidth() {
+		return currentPosition.width;
 	}
 	
 	public void move(int deltaX) {

@@ -70,6 +70,8 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 		gameState = new GameState();
 		bat = new Bat(GAME_AREA_HEIGHT - 30, GAME_AREA_WIDTH, BORDER, HEADER_HEIGHT);
 		ball = new Ball(GAME_AREA_WIDTH, GAME_AREA_HEIGHT, BORDER, HEADER_HEIGHT);
+		ball.setX(bat.getCurrentX() + bat.getWidth() / 2 - ball.BALL_SIZE / 2);
+		ball.setY(GAME_AREA_HEIGHT - 30 - bat.BAT_HEIGHT - ball.BALL_SIZE - 1);
 		
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.black);

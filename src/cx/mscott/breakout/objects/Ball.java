@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class Ball {
-	private static final int BALL_SIZE = 20;
+	public final int BALL_SIZE = 20;
 	
 	private int maxX;
 	private int maxY;
@@ -15,7 +15,7 @@ public class Ball {
 	private int xPos = 10;
     private int yPos = 10;
     private int deltaX = 3;
-    private int deltaY = 3;
+    private int deltaY = -3;
 
     public Ball(int maxX, int maxY, int offsetX, int offsetY) {
     	this.maxX = maxX;
@@ -45,7 +45,8 @@ public class Ball {
 				BALL_SIZE);
 	}
 
-	public void move(Bat bat1) {
+	public void move(Bat bat) {
+		// Bounce off the sides
 		if (yPos + deltaY < 0)
 			deltaY = -deltaY;
 		else if (yPos + deltaY + BALL_SIZE >= maxY)
@@ -56,6 +57,21 @@ public class Ball {
 		else if (xPos + deltaX + BALL_SIZE >= maxX)
 			deltaX = -deltaX;
 
+		Rectangle new_bounds = getBounds();
+		new_bounds.translate(deltaX, deltaY);
+
+		// Bounce off bat
+		Rectangle bat_bounds = bat.getBounds();
+		if (bat_bounds.intersects(new_bounds)) {
+			if (xPos + BALL_SIZE < bat_bounds.x) {
+				deltaX = -Math.abs(deltaX);
+			} else if (xPos >= bat_bounds.x + bat_bounds.width) {
+				deltaX = Math.abs(deltaX);
+			} else if (yPos + BALL_SIZE <= bat_bounds.y) {
+				deltaY = -Math.abs(deltaY);
+			}
+		}
+		
 		xPos += deltaX;
 		yPos += deltaY;
 	}
