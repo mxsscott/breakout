@@ -4,16 +4,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.event.ListSelectionEvent;
 
 import cx.mscott.breakout.objects.Ball;
 import cx.mscott.breakout.objects.Bat;
@@ -68,10 +72,14 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 	
 	public GraphicsCanvas() {
 		gameState = new GameState();
-		bat = new Bat(GAME_AREA_HEIGHT - 30, GAME_AREA_WIDTH, BORDER, HEADER_HEIGHT);
-		ball = new Ball(GAME_AREA_WIDTH, GAME_AREA_HEIGHT, BORDER, HEADER_HEIGHT);
-		ball.setX(bat.getCurrentX() + bat.getWidth() / 2 - ball.BALL_SIZE / 2);
-		ball.setY(GAME_AREA_HEIGHT - 30 - bat.BAT_HEIGHT - ball.BALL_SIZE - 1);
+		bat = new Bat(GAME_AREA_HEIGHT - 30, GAME_AREA_WIDTH);
+		bat.setOffset(BORDER, HEADER_HEIGHT);
+
+		ball = new Ball(GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+		ball.setOffset(BORDER, HEADER_HEIGHT);
+		ball.setX(bat.getCurrentX() + bat.getWidth() / 2 - Ball.DEFAULT_BALL_SIZE / 2);
+		ball.setY(GAME_AREA_HEIGHT - 30 - Bat.BAT_HEIGHT - Ball.DEFAULT_BALL_SIZE - 1);
+		ball.setDirection(Math.PI * 1.75);
 		
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.black);
@@ -101,20 +109,34 @@ public class GraphicsCanvas extends JPanel implements ActionListener {
 		// Look at keys every game cycles
 		if (gameCycle % 3 == 0) {
 			if (keys.contains(KeyEvent.VK_Q)) {
-				repaint(bat.getBounds());
+				repaint(bat.getGraphicsBounds());
 				bat.move(-10);
-				repaint(bat.getBounds());
+				repaint(bat.getGraphicsBounds());
 			}
 			if (keys.contains(KeyEvent.VK_P)) {
-				repaint(bat.getBounds());
+				repaint(bat.getGraphicsBounds());
 				bat.move(10);
-				repaint(bat.getBounds());
+				repaint(bat.getGraphicsBounds());
 			}
 		}
 		
-		repaint(ball.getBounds());
-		ball.move(bat);
-		repaint(ball.getBounds());
+		repaint(ball.getGraphicsBounds());
+		
+		List<Rectangle> rectangles = new ArrayList<Rectangle>();
+
+		// Top of game area
+		rectangles.add(new Rectangle(-100, -100, GAME_AREA_WIDTH + 200, 100));
+		// Left of game area
+		rectangles.add(new Rectangle(-100, -100, 100, GAME_AREA_HEIGHT + 200));
+		// Right of game area
+		rectangles.add(new Rectangle(GAME_AREA_WIDTH, -100, 100, GAME_AREA_HEIGHT + 200));
+		// Bottom of game area
+		rectangles.add(new Rectangle(-100, GAME_AREA_HEIGHT, GAME_AREA_WIDTH + 200, 100));
+				
+		rectangles.add(bat.getBounds());
+		
+		ball.move(rectangles);
+		repaint(ball.getGraphicsBounds());
 	}
 
 	/**

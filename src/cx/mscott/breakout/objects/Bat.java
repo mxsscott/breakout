@@ -4,9 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Bat {
+public class Bat extends Sprite implements Drawable {
 
-	public final int BAT_HEIGHT = 20;
+	public static final int BAT_HEIGHT = 20;
+	public static final int BAT_DEFAULT_WIDTH = 100;
 	
 	/** Maximum X position */
 	private int maxX;
@@ -14,24 +15,19 @@ public class Bat {
 	/** Current X position */
 	private int currentX;
 
-	/** Current position / bounds of the bat */
-	private Rectangle currentPosition = new Rectangle();
+	/** Current Y position */
+	private int currentY;
+
+	/** Current width */
+	private int currentWidth;
 	
-	private int offsetX;
-	
-	
-	public Bat(int bottom, int maxX, int offsetX, int offsetY) {
+	public Bat(int bottom, int maxX) {
+		super();
+		
 		this.maxX = maxX;
 		this.currentX = maxX / 2;
-
-		this.currentPosition.x = this.currentX;
-		this.currentPosition.width = 100;
-		this.currentPosition.y = bottom - BAT_HEIGHT;
-		this.currentPosition.height = BAT_HEIGHT;
-		
-		this.currentPosition.translate(offsetX, offsetY);
-		
-		this.offsetX = offsetX;
+		this.currentY = bottom - BAT_HEIGHT;
+		this.currentWidth = BAT_DEFAULT_WIDTH;
 	}
 	
 	/**
@@ -47,27 +43,29 @@ public class Bat {
 	 * @return
 	 */
 	public int getWidth() {
-		return currentPosition.width;
+		return currentWidth;
 	}
 	
 	public void move(int deltaX) {
 		currentX += deltaX;
-		if (currentX + currentPosition.width >= maxX) {
-			currentX = maxX - currentPosition.width;
+		if (currentX + currentWidth >= maxX) {
+			currentX = maxX - currentWidth;
 		} else if (currentX < 0) {
 			currentX = 0;
 		}
-		currentPosition.x = currentX + offsetX;
 	}
-	
+
+	@Override
 	public Rectangle getBounds() {
-		
-		return currentPosition;
+		Rectangle bounds = new Rectangle(currentX, currentY, currentWidth, BAT_HEIGHT);
+		return bounds;
 	}
 	
 	public void repaint(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(currentPosition.x, currentPosition.y,
-				currentPosition.width, currentPosition.height);
+		g.fillRect(currentX + offset.x,
+				currentY + offset.y,
+				currentWidth,
+				BAT_HEIGHT);
 	}
 }
