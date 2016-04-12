@@ -7,16 +7,8 @@ import org.junit.Test;
 public class GameStateTest {
 
 	@Test
-	public void testGameState() {
-		GameState gs = new GameState();
-		
-		assertEquals(3, gs.getLives());
-		assertEquals(0, gs.getScore());
-	}
-
-	@Test
 	public void testReset() {
-		GameState gs = new GameState();
+		GameState gs = GameState.getInstance();
 
 		gs.reset();
 		assertEquals(3, gs.getLives());
@@ -31,21 +23,22 @@ public class GameStateTest {
 
 	@Test
 	public void testGetScore() {
-		GameState gs = new GameState();
+		GameState gs = GameState.getInstance();
+		gs.reset();
 		gs.incrementScore(100);
 		assertEquals(100, gs.getScore());
 	}
 
 	@Test
 	public void testGetLives() {
-		GameState gs = new GameState();
+		GameState gs = GameState.getInstance();
 		gs.adjustLives(1);
 		assertEquals(4, gs.getLives());
 	}
 
 	@Test
 	public void testIncrementScore() {
-		GameState gs = new GameState();
+		GameState gs = GameState.getInstance();
 		gs.incrementScore(100);
 		assertEquals(100, gs.getScore());
 		gs.incrementScore(150);
@@ -56,7 +49,7 @@ public class GameStateTest {
 
 	@Test
 	public void testAdjustLives() {
-		GameState gs = new GameState();
+		GameState gs = GameState.getInstance();
 		gs.adjustLives(1);
 		assertEquals(4, gs.getLives());
 
@@ -78,7 +71,7 @@ public class GameStateTest {
 
 	@Test
 	public void testIsDead() {
-		GameState gs = new GameState();
+		GameState gs = GameState.getInstance();
 		assertEquals(false, gs.isDead());
 
 		gs.adjustLives(2);

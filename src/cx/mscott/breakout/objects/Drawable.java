@@ -7,4 +7,6 @@ public interface Drawable {
 	public void repaint(Graphics g);
 	
 	public Rectangle getGraphicsBounds();
+	
+	public boolean isGraphicsDirty();
 }

@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 
 import org.junit.Test;
 
-import cx.mscott.breakout.Physics.Result;
 import cx.mscott.breakout.objects.Coordinate;
 import cx.mscott.breakout.objects.Distance;
 

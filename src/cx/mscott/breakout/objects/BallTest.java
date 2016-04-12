@@ -155,15 +155,15 @@ public class BallTest {
 		ball.setX(100);
 		ball.setY(100);
 		
-		List<Rectangle> boxes = new ArrayList<Rectangle>();
+		List<Bounceable> boxes = new ArrayList<Bounceable>();
 		// Top of game area
-		boxes.add(new Rectangle(-100, -100, 400, 100));
+		boxes.add(new InvisibleRectangle(-100, -100, 400, 100));
 		// Left of game area
-		boxes.add(new Rectangle(-100, -100, 100, 500));
+		boxes.add(new InvisibleRectangle(-100, -100, 100, 500));
 		// Right of game area
-		boxes.add(new Rectangle(200, -100, 100, 500));
+		boxes.add(new InvisibleRectangle(200, -100, 100, 500));
 		// Bottom of game area
-		boxes.add(new Rectangle(-100, 300, 400, 100));
+		boxes.add(new InvisibleRectangle(-100, 300, 400, 100));
 				
 		ball.move(boxes);
 		assertEquals(107, ball.getX());

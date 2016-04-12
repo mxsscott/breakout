@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Bat extends Sprite implements Drawable {
+public class Bat extends Sprite implements Bounceable, Drawable {
 
 	public static final int BAT_HEIGHT = 20;
 	public static final int BAT_DEFAULT_WIDTH = 100;
@@ -61,11 +61,17 @@ public class Bat extends Sprite implements Drawable {
 		return bounds;
 	}
 	
+	@Override
 	public void repaint(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(currentX + offset.x,
 				currentY + offset.y,
 				currentWidth,
 				BAT_HEIGHT);
+	}
+
+	@Override
+	public boolean isGraphicsDirty() {
+		return false;
 	}
 }

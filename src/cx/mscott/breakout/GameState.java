@@ -1,13 +1,20 @@
 package cx.mscott.breakout;
 
 public class GameState {
+	private static GameState theInstance;
+	public static GameState getInstance() {
+		if (theInstance == null)
+			theInstance = new GameState();
+		return theInstance;
+	}
+	
 	private int score;
 	private int lives;
 	
 	/**
 	 * Constructor
 	 */
-	public GameState() {
+	private GameState() {
 		reset();
 	}
 	

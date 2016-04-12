@@ -176,22 +176,22 @@ public class Ball extends Sprite implements Drawable {
         		radius * 2);
     }
 
-	public void move(List<Rectangle> bounds) {
+	public void move(List<Bounceable> bounceables) {
 		double distance_left_to_travel = speed;
 		
 		while (distance_left_to_travel > 0.0) {
 			// Convert speed and direction into deltas.
-			PriorityQueue<Result> x = new PriorityQueue<Physics.Result>();
+			PriorityQueue<BounceResult> x = new PriorityQueue<BounceResult>();
 		
-			for (Rectangle bound : bounds) {
+			for (Bounceable bouncy : bounceables) {
 				Result result = Physics.intersectsRectangle(
 						position,
 						radius,
 						direction,
 						distance_left_to_travel,
-						bound);
+						bouncy.getBounds());
 				if (result != null) {
-					x.add(result);
+					x.add(new BounceResult(result, bouncy));
 				}
 			}
 			
@@ -202,11 +202,22 @@ public class Ball extends Sprite implements Drawable {
 				position.y += delta.deltaY;
 				distance_left_to_travel = 0.0;
 			} else {
-				Result first_bounce = x.remove();
-				position = first_bounce.getBouncePoint();
-				direction = first_bounce.getNewAngle();
-				distance_left_to_travel -= first_bounce.getDistanceUsed();
+				BounceResult first_bounce = x.remove();
+				Result bounce_info = first_bounce.getResult();
+				position = bounce_info.getBouncePoint();
+				direction = bounce_info.getNewAngle();
+				distance_left_to_travel -= bounce_info.getDistanceUsed();
+				
+				Bounceable object = first_bounce.getObject();
+				if (object instanceof Hitable) {
+					((Hitable)object).hit();
+				}
 			}
 		}
+	}
+
+	@Override
+	public boolean isGraphicsDirty() {
+		return false;
 	}
 }
