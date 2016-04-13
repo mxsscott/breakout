@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import cx.mscott.breakout.Physics;
-
 public class BallTest {
 
 	@Test

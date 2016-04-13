@@ -1,13 +1,10 @@
-package cx.mscott.breakout;
+package cx.mscott.breakout.objects;
 
 import static org.junit.Assert.*;
 
 import java.awt.Rectangle;
 
 import org.junit.Test;
-
-import cx.mscott.breakout.objects.Coordinate;
-import cx.mscott.breakout.objects.Distance;
 
 public class PhysicsTest {
 	public static final double RIGHT = 0.0;

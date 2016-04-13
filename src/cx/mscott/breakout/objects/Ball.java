@@ -7,8 +7,7 @@ import java.awt.Rectangle;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import cx.mscott.breakout.Physics;
-import cx.mscott.breakout.Physics.Result;
+import cx.mscott.breakout.objects.Physics.Result;
 
 public class Ball extends Sprite implements Drawable {
 	/**

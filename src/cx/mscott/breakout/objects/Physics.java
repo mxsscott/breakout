@@ -1,10 +1,7 @@
-package cx.mscott.breakout;
+package cx.mscott.breakout.objects;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-
-import cx.mscott.breakout.objects.Coordinate;
-import cx.mscott.breakout.objects.Distance;
 
 public class Physics {
 	public static double HALF_PI = Math.PI * 0.5;

@@ -1,6 +1,5 @@
 package cx.mscott.breakout.objects;
 
-import cx.mscott.breakout.Physics;
 
 public class BounceResult implements Comparable<BounceResult> {
 	private Physics.Result result;
